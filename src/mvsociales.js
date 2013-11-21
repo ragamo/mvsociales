@@ -1,13 +1,62 @@
-(function(window, undefined) {
+(function(window, document, undefined) {
 
 	// Config
 	if(!window.FB_API_KEY) 
-		window.FB_API_KEY = 428251410528247;
+		window.FB_API_KEY = 0;
 
-	// Entorno privado
+	if(!window.BASE_URL)
+		window.BASE_URL = "";
+
+
+	// Objeto base - Entorno privado
 	var mvsociales = (function() {
+
+		// Interfaces
+		var interfaces = {
+
+			/*-- Facebok --*/
+			facebook: {
+				login: function(_scope, _fnCallback, _fnPreloaderCallback) {
+					mv.api.facebook.login(_scope, _fnCallback, _fnPreloaderCallback);
+				},
+				
+				logout: function(_fnCallback) {
+					mv.api.facebook.logout(_fnCallback);
+				},
+				
+				publicar: function(objBase, _fnCallback) {
+					mv.api.facebook.publicar(objBase, _fnCallback);
+				},
+				
+				compartir: function(objBase, _fnCallback) {
+					mv.api.facebook.compartir(objBase, _fnCallback);
+				},
+				
+				invitarAmigos: function(msg, ids, _fnCallback) {
+					mv.api.facebook.invitarAmigos(msg, ids, _fnCallback); 
+				}
+				
+			},
+			
+			/*-- Twitter --*/
+			twitter: {
+				login: function() {
+					mv.api.twitter.login();	
+				},
+				compartir: function(msg, url) {
+					mv.api.twitter.compartir(msg, url);
+				}
+			},
+
+			/*-- Otros --*/
+			version: function() {
+				return mv.version;
+			}
+		};	
+
+		// Process
 		var mv = {
-			version: '1.4',
+			version: '1.4.1',
 			
 			/**
 			 * API References
@@ -17,7 +66,16 @@
 					session: false,		//Verifica si usuario esta logeado
 					initset: false,		//Verifica si API ha cargado
 					
-					login: function(_fnCallback, _fnPreloaderCallback) {
+					login: function(_scope, _fnCallback, _fnPreloaderCallback) {
+						if(typeof _scope === 'function') {
+							_fnCallback = _scope;
+							_scope = 'email';
+						}
+						if(typeof _scope === 'string' && _scope == "") {
+							//scope: 'email,publish_stream'
+							_scope = 'email';
+						}
+
 						FB.login(function(data){
 							if(_fnPreloaderCallback) 
 								_fnPreloaderCallback();
@@ -35,8 +93,7 @@
 									_fnCallback(false, {});
 							}
 						}, {
-							//scope: 'email,publish_stream'
-							scope: 'email'
+							scope: _scope
 						});
 					},
 					
@@ -80,7 +137,8 @@
 							
 							//Callback
 							} else {
-								if(_fnCallback) _fnCallback();
+								if(_fnCallback)
+									_fnCallback();
 							}
 						});
 					}, //api.facebook.publicar
@@ -260,44 +318,11 @@
 			mv.api.facebook.initset = true;
 		};
 		
-		// Interfaces
-		return {
-			facebook: {
-				login: function(_fnCallback, _fnPreloaderCallback) {
-					mv.api.facebook.login(_fnCallback, _fnPreloaderCallback);
-				},
-				
-				logout: function(_fnCallback) {
-					mv.api.facebook.logout(_fnCallback);
-				},
-				
-				publicar: function(objBase, _fnCallback) {
-					mv.api.facebook.publicar(objBase, _fnCallback);
-				},
-				
-				compartir: function(objBase, _fnCallback) {
-					mv.api.facebook.compartir(objBase, _fnCallback);
-				},
-				
-				invitarAmigos: function(msg, ids, _fnCallback) {
-					mv.api.facebook.invitarAmigos(msg, ids, _fnCallback); 
-				}
-				
-			},
-			
-			/*-- Twitter --*/
-			twitter: {
-				login: function() {
-					mv.api.twitter.login();	
-				},
-				compartir: function(msg, url) {
-					mv.api.twitter.compartir(msg, url);
-				}
-			}
-		};	
-
+		// Return
+		return interfaces;
 	})(); 
 
+	// Publica en ambiente global.
 	window.mv = mvsociales;
-})( window );
+})( window, document );
 
