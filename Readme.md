@@ -16,9 +16,13 @@ TODO
 Métodos
 -------
 
-### mv.facebook.login(string scope, function fnCallback, function fbCallbackPreloader)
+### mv.facebook.login
 
-- scope: permisos a solicitar (default: email)
-- fnCallback: callback a realizar luego del proceso de validación
+	mv.facebook.login(_string_ scope, _function_ fnCallback, _function_ fbCallbackPreloader)
+
+- __scope__: permisos a solicitar (default: email)
+- __fnCallback__: callback a realizar luego del proceso de validación
+
 	fnCallback(status, user)
-- fbCallbackPreloader: se ejecuta antes de levantar la ventana de validación, útil para mostrar preloaders.
+	
+- __fbCallbackPreloader__: se ejecuta antes de levantar la ventana de validación, útil para mostrar preloaders.
