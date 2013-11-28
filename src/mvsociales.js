@@ -127,18 +127,13 @@
 						};
 						
 						FB.api('/me/feed', 'post', adaptador, function(response) {
-							//console.log(response);
 							if (!response || response.error) {
-								/*if (!mv.api.facebook.session) {
-									mv.api.facebook.login(function() {
-										mv.api.facebook.like(opciones, boton);
-									});
-								}*/
+								if(_fnCallback)
+									_fnCallback(false);
 							
-							//Callback
 							} else {
 								if(_fnCallback)
-									_fnCallback();
+									_fnCallback(true, response);
 							}
 						});
 					}, //api.facebook.publicar
@@ -173,12 +168,20 @@
 					
 					invitarAmigos: function(msg, ids, _fnCallback) {
 						if(!msg) msg = 'Únete!';
-						
-						FB.ui({
+
+						var config = {
 						    method: 'apprequests',
-						    message: msg,
-							to: ids
-						}, function(data) {
+						    message: msg
+						};
+
+						if(typeof ids === "object") { //=array
+							mv.fn.extender(config, {to: ids});
+						}
+						if(typeof ids === "function") {
+							_fnCallback = ids;
+						}
+						
+						FB.ui(config, function(data) {
 						    if(_fnCallback)
 								_fnCallback(data);
 						});
@@ -304,6 +307,7 @@
 			} //fn
 		};
 
+		//Carga asincrona de FB
 		window.fbAsyncInit = function() {
 			FB.init({
 				appId: FB_API_KEY,
@@ -312,7 +316,7 @@
 				xfbml: true, // parse XFBML
 				oauth: true
 			});
-			if (FB.getAuthResponse() != null) {
+			if(FB.getAuthResponse() != null) {
 				mv.api.facebook.session = true;
 			}
 			mv.api.facebook.initset = true;
@@ -320,6 +324,7 @@
 		
 		// Return
 		return interfaces;
+
 	})(); 
 
 	// Publica en ambiente global.
