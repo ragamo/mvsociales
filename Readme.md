@@ -19,7 +19,7 @@ Métodos
 
 Autentica con Facebook Connect.
 
-	mv.facebook.login(scope, fnCallback, fbCallbackPreloader)
+	mv.facebook.login([scope], [fnCallback], [fbCallbackPreloader])
 
 ###### scope
 
@@ -47,7 +47,7 @@ Autentica con Facebook Connect.
 
 Cierra sesión en Facebook.
 
-	mv.facebook.logout(fnCallback)
+	mv.facebook.logout([fnCallback])
 
 ###### fnCallback
 
@@ -63,7 +63,7 @@ Cierra sesión en Facebook.
 
 Publica en el muro del usuario (/me/feed).
 
-	mv.facebook.publicar(params, fnCallback)
+	mv.facebook.publicar(params, [fnCallback])
 	
 ###### params
 
@@ -83,7 +83,7 @@ Publica en el muro del usuario (/me/feed).
 
 Comparte en el stream publico.
 
-	mv.facebook.publicar(params, fnCallback)
+	mv.facebook.publicar(params, [fnCallback])
 	
 ###### params
 
@@ -102,7 +102,7 @@ Comparte en el stream publico.
 
 Levanta el modal para seleccionar varios amigos.
 
-	mv.facebook.invitarAmigos(msg, [ids,] fnCallback)
+	mv.facebook.invitarAmigos(msg, [ids], [fnCallback])
 
 ###### msg
 
