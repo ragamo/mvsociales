@@ -34,8 +34,8 @@ Autentica con Facebook Connect.
 - Callback a ejecutar luego del proceso de validación
 - Type: function
 - Return
--- status: boolean
--- user: object, datos del usuario autenticado
+  - status: boolean
+  - user: object, datos del usuario autenticado
 	
 ###### fbCallbackPreloader (deprecated)
 
@@ -56,8 +56,8 @@ Cierra sesión en Facebook.
 - Callback a ejecutar luego del proceso de logout.
 - Type: function
 - Return
--- status: boolean
--- data: object, respuesta de FB, incluye el ID de usuario.
+  - status: boolean
+  - data: object, respuesta de FB, incluye el ID de usuario.
  
 ### mv.facebook.publicar
 
@@ -76,8 +76,8 @@ Publica en el muro del usuario (/me/feed).
 
 - Type: function
 - Return: 
--- status: boolean
--- response: object, respuesta desde FB, incluye el ID de la publicación.
+  - status: boolean
+  - response: object, respuesta desde FB, incluye el ID de la publicación.
 
 ### mv.facebook.compartir
 
@@ -96,7 +96,7 @@ Comparte en el stream publico.
 
 - Type: function
 - Return: 
--- response: object
+  - response: object
 
 ### mv.facebook.invitarAmigos
 
@@ -121,4 +121,4 @@ Levanta el modal para seleccionar varios amigos.
 - Respuesta de FB.
 - Type: function
 - Return
--- data: object
+  - data: object
