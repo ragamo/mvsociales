@@ -100,10 +100,12 @@
 					logout: function(_fnCallback) {
 						if(FB.getAuthResponse() != null) {
 							FB.logout(function(data){
-								if (_fnCallback) _fnCallback();
+								if (_fnCallback)
+									_fnCallback(true, data);
 							});
 						} else {
-							if (_fnCallback) _fnCallback();
+							if (_fnCallback)
+								_fnCallback(false);
 						}
 					},
 					
