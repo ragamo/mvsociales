@@ -24,16 +24,16 @@
 					mv.api.facebook.logout(_fnCallback);
 				},
 				
-				publicar: function(objBase, _fnCallback) {
-					mv.api.facebook.publicar(objBase, _fnCallback);
+				publicar: function(_objBase, _fnCallback) {
+					mv.api.facebook.publicar(_objBase, _fnCallback);
 				},
 				
-				compartir: function(objBase, _fnCallback) {
-					mv.api.facebook.compartir(objBase, _fnCallback);
+				compartir: function(_objBase, _fnCallback) {
+					mv.api.facebook.compartir(_objBase, _fnCallback);
 				},
 				
-				invitarAmigos: function(msg, ids, _fnCallback) {
-					mv.api.facebook.invitarAmigos(msg, ids, _fnCallback); 
+				invitarAmigos: function(_msg, _ids, _fnCallback) {
+					mv.api.facebook.invitarAmigos(_msg, _ids, _fnCallback); 
 				}
 				
 			},
@@ -43,8 +43,8 @@
 				login: function() {
 					mv.api.twitter.login();	
 				},
-				compartir: function(msg, url) {
-					mv.api.twitter.compartir(msg, url);
+				compartir: function(_msg, _url) {
+					mv.api.twitter.compartir(_msg, _url);
 				}
 			},
 
@@ -56,7 +56,7 @@
 
 		// Process
 		var mv = {
-			version: '1.4.1',
+			version: '1.4.3',
 			
 			/**
 			 * API References
@@ -107,15 +107,15 @@
 						}
 					},
 					
-					publicar: function(opciones, _fnCallback) {				
+					publicar: function(_opciones, _fnCallback) {				
 						var objBase = {
 							mensaje: 'Estoy participando, participa tu también!',
 							titulo: 'titulo',
 							link: window.location.href,
 							descripcion: 'Lorem ipsum',
-							imagen: FULL_PATH+'/views/img/logo.png'
+							imagen: '/views/img/logo.png'
 						};
-						mv.fn.extender(objBase, opciones);
+						mv.fn.extender(objBase, _opciones);
 						
 						var adaptador = {
 							message: mv.fn.fbEncode(objBase.mensaje),
@@ -138,15 +138,15 @@
 						});
 					}, //api.facebook.publicar
 					
-					compartir: function(opciones, _fnCallback) {
+					compartir: function(_opciones, _fnCallback) {
 						var objBase = {
 							mensaje: 'Estoy participando, participa tu también!',
 							titulo: 'titulo',
 							link: window.location.href,
 							descripcion: 'Lorem ipsum',
-							imagen: FULL_PATH+'/views/img/logo.png'
+							imagen: '/views/img/logo.png'
 						};
-						mv.fn.extender(objBase, opciones);
+						mv.fn.extender(objBase, _opciones);
 						
 						FB.ui({
 							method: 'stream.publish',
@@ -162,23 +162,24 @@
 								}]
 							}
 						}, function(response){
-							//console.log(response);
+							if(_fnCallback)
+								_fnCallback(response);
 						});
 					},
 					
-					invitarAmigos: function(msg, ids, _fnCallback) {
-						if(!msg) msg = 'Únete!';
+					invitarAmigos: function(_msg, _ids, _fnCallback) {
+						if(!_msg) _msg = 'Únete!';
 
 						var config = {
 						    method: 'apprequests',
-						    message: msg
+						    message: _msg
 						};
 
-						if(typeof ids === "object") { //=array
-							mv.fn.extender(config, {to: ids});
+						if(typeof _ids === 'object') //=array
+							mv.fn.extender(config, {to: _ids});
 						}
-						if(typeof ids === "function") {
-							_fnCallback = ids;
+						if(typeof _ids === 'function') {
+							_fnCallback = _ids;
 						}
 						
 						FB.ui(config, function(data) {
@@ -195,11 +196,11 @@
 						var url = BASE_URL+'/twitter/callback/'+random;
 						mv.fn.popup(785, 440, url);
 					},
-					compartir: function(msg, url) {
-						if(!msg) msg = "Participa!";
-						if(!url) url = window.location.href;
+					compartir: function(_msg, _url) {
+						if(!_msg) _msg = "Participa!";
+						if(!_url) _url = window.location.href;
 
-						var url = "http://twitter.com/intent/tweet?status="+msg+" "+encodeURIComponent(url);
+						var url = "http://twitter.com/intent/tweet?status="+_msg+" "+encodeURIComponent(_url);
 						mv.fn.popup(640,380, url);
 					}
 				}
