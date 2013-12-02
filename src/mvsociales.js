@@ -177,7 +177,7 @@
 						    message: _msg
 						};
 
-						if(typeof _ids === 'object') //=array
+						if(typeof _ids === 'object') { //=array
 							mv.fn.extender(config, {to: _ids});
 						}
 						if(typeof _ids === 'function') {
