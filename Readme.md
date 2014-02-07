@@ -98,6 +98,16 @@ Comparte en el stream publico.
 - Return: 
   - response: object
 
+### mv.facebook.compartirOg
+
+Levanta un popup utilizando el sharer nativo de facebook.
+
+	mv.facebook.compartirOg(url)
+	
+###### params
+
+- URL del sitio que se quiere compartir.
+
 ### mv.facebook.invitarAmigos
 
 Levanta el modal para seleccionar varios amigos.

@@ -34,8 +34,11 @@
 				
 				invitarAmigos: function(_msg, _ids, _fnCallback) {
 					mv.api.facebook.invitarAmigos(_msg, _ids, _fnCallback); 
-				}
+				},
 				
+				compartirOg: function(_url) {
+					mv.api.facebook.compartirOg(_url);
+				}
 			},
 			
 			/*-- Twitter --*/
@@ -43,8 +46,8 @@
 				login: function() {
 					mv.api.twitter.login();	
 				},
-				compartir: function(_msg, _url) {
-					mv.api.twitter.compartir(_msg, _url);
+				compartir: function(_msg) {
+					mv.api.twitter.compartir(_msg);
 				}
 			},
 
@@ -56,7 +59,7 @@
 
 		// Process
 		var mv = {
-			version: '1.4.3',
+			version: '1.4.4',
 			
 			/**
 			 * API References
@@ -168,6 +171,12 @@
 								_fnCallback(response);
 						});
 					},
+
+					compartirOg: function(_url) {
+						if(!_url) _url = window.location.href;
+						var url = "https://www.facebook.com/sharer/sharer.php?u="+_url;
+						mv.fn.popup(680, 380, url);
+					},
 					
 					invitarAmigos: function(_msg, _ids, _fnCallback) {
 						if(!_msg) _msg = 'Únete!';
@@ -198,11 +207,9 @@
 						var url = BASE_URL+'/twitter/callback/'+random;
 						mv.fn.popup(785, 440, url);
 					},
-					compartir: function(_msg, _url) {
+					compartir: function(_msg) {
 						if(!_msg) _msg = "Participa!";
-						if(!_url) _url = window.location.href;
-
-						var url = "http://twitter.com/intent/tweet?status="+_msg+" "+encodeURIComponent(_url);
+						var url = "http://twitter.com/intent/tweet?status="+_msg;
 						mv.fn.popup(640,380, url);
 					}
 				}
@@ -230,41 +237,6 @@
 					
 				 	var popup = window.open(url, "mv_popup", "left="+left+",top="+top+",width="+anchoPopup+",height="+altoPopup+",personalbar=0,toolbar=0,scrollbars=0,resizable=0");
 			        if (popup) popup.focus();
-				},
-				
-				lightbox: function(ancho, alto, url) {
-					var documentHeight, documentWidth;
-					if(mv.fn.getIEVersion() != -1) {
-						documentHeight = (document.body.clientHeight<document.documentElement.clientHeight)?document.documentElement.clientHeight:document.body.clientHeight;
-						documentWidth = document.documentElement.clientWidth;
-					} else {
-						documentHeight = (document.height<window.innerHeight)?window.innerHeight:document.height || document.body.clientHeight;
-						documentWidth = document.width || document.documentElement.clientWidth;
-					}
-					
-					var overlay = document.createElement('div');
-					overlay.id = "MVLBOverlay";
-					overlay.style.width = documentWidth+'px';
-					overlay.style.height = documentHeight+'px';
-					document.body.appendChild(overlay);
-					
-					var scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-					var lb = document.createElement('div');
-					lb.id = 'MVLBLightbox';
-					lb.style.width = ancho+'px';
-					lb.style.height = alto+'px';
-					lb.style.left = parseInt(documentWidth/2)-parseInt(ancho/2) +'px';
-					lb.style.top = scrollTop + 80 +'px';
-					lb.innerHTML = '<iframe frameborder="no" border="no" allowtransparency="yes" width="'+ancho+'" height="'+alto+'" src="'+url+'"></iframe>';
-					document.body.appendChild(lb);
-					
-					var cerrar = document.createElement('a');
-					cerrar.id = "MVLBCerrar";
-					lb.appendChild(cerrar);
-					cerrar.onclick = function() {
-						overlay.parentNode.removeChild(overlay);
-						lb.parentNode.removeChild(lb);
-					};
 				},
 				
 				tildeEncode: function(str) {			
