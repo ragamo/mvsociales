@@ -154,18 +154,12 @@
 						mv.fn.extender(objBase, _opciones);
 						
 						FB.ui({
-							method: 'stream.publish',
-							message: mv.fn.fbEncode(objBase.mensaje),
-							attachment: {
-								name: objBase.titulo,
-								description: objBase.descripcion,
-								href: objBase.link,
-								media: [{
-									type: 'image',
-									href: objBase.link,
-									src: objBase.imagen
-								}]
-							}
+							method: 'feed',
+							link: objBase.link,
+							picture: objBase.imagen,
+							name: objBase.titulo,
+							caption: objBase.descripcion,
+							description: objBase.mensaje
 						}, function(response){
 							if(_fnCallback)
 								_fnCallback(response);
