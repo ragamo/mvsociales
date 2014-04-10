@@ -59,7 +59,7 @@
 
 		// Process
 		var mv = {
-			version: '1.4.4',
+			version: '1.4.5',
 			
 			/**
 			 * API References
@@ -145,7 +145,7 @@
 					
 					compartir: function(_opciones, _fnCallback) {
 						var objBase = {
-							mensaje: 'Estoy participando, participa tu también!',
+							bajada: null,
 							titulo: 'titulo',
 							link: window.location.href,
 							descripcion: 'Lorem ipsum',
@@ -155,11 +155,12 @@
 						
 						FB.ui({
 							method: 'feed',
+							name: objBase.titulo,
 							link: objBase.link,
 							picture: objBase.imagen,
-							name: objBase.titulo,
-							caption: objBase.descripcion,
-							description: objBase.mensaje
+							caption: objBase.bajada,
+							description: objBase.descripcion
+
 						}, function(response){
 							if(_fnCallback)
 								_fnCallback(response);
