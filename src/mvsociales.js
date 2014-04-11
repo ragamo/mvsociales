@@ -46,8 +46,8 @@
 				login: function() {
 					mv.api.twitter.login();	
 				},
-				compartir: function(_msg) {
-					mv.api.twitter.compartir(_msg);
+				compartir: function(_msg, _url, _via) {
+					mv.api.twitter.compartir(_msg, _url, _via);
 				}
 			},
 
@@ -202,9 +202,13 @@
 						var url = BASE_URL+'/twitter/callback/'+random;
 						mv.fn.popup(785, 440, url);
 					},
-					compartir: function(_msg) {
+					compartir: function(_msg, _url, _via) {
 						if(!_msg) _msg = "Participa!";
-						var url = "http://twitter.com/intent/tweet?status="+_msg;
+
+						_url = (typeof _url !== 'undefined') ? "&url="+encodeURIComponent(_url) : '';
+						_via = (typeof _via !== 'undefined') ? "&via="+_via : '';
+
+						var url = "http://twitter.com/intent/tweet?text="+_msg+_url+_via;
 						mv.fn.popup(640,380, url);
 					}
 				}
