@@ -16,8 +16,8 @@
 
 			/*-- Facebok --*/
 			facebook: {
-				login: function(_scope, _fnCallback, _fnPreloaderCallback) {
-					mv.api.facebook.login(_scope, _fnCallback, _fnPreloaderCallback);
+				login: function(_scope, _fnCallback) {
+					mv.api.facebook.login(_scope, _fnCallback);
 				},
 				
 				logout: function(_fnCallback) {
@@ -69,23 +69,25 @@
 					session: false,		//Verifica si usuario esta logeado
 					initset: false,		//Verifica si API ha cargado
 					
-					login: function(_scope, _fnCallback, _fnPreloaderCallback) {
+					login: function(_scope, _fnCallback) {
 						if(typeof _scope === 'function') {
 							_fnCallback = _scope;
 							_scope = 'email';
 						}
-						if(typeof _scope === 'string' && _scope == "") {
-							//scope: 'email,publish_stream'
+						if(!_scope) {
 							_scope = 'email';
 						}
 
-						FB.login(function(data){
-							if(_fnPreloaderCallback) 
-								_fnPreloaderCallback();
-								
+						FB.login(function(data){								
 							if (data.authResponse) {
 								FB.api('/me', function(usuario){
 									if(usuario.id) {
+										/*if(!usuario.email) {
+											if(_fnCallback)
+												_fnCallback(false, undefined);
+											return;
+										}*/
+
 										mv.api.facebook.session = true;
 										if (_fnCallback) 
 											_fnCallback(true, usuario);	
@@ -93,10 +95,11 @@
 								});
 							} else {
 								if (_fnCallback) 
-									_fnCallback(false, {});
+									_fnCallback(false, undefined);
 							}
 						}, {
-							scope: _scope
+							scope: _scope,
+							auth_type: 'rerequest'
 						});
 					},
 					
