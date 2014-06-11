@@ -51,6 +51,13 @@
 				}
 			},
 
+			/*-- Google Plus --*/
+			gplus: {
+				compartir: function(_url) {
+					mv.api.gplus.compartir(_url);
+				}
+			},
+
 			/*-- Otros --*/
 			version: function() {
 				return mv.version;
@@ -213,6 +220,14 @@
 
 						var url = "http://twitter.com/intent/tweet?text="+_msg+_url+_via;
 						mv.fn.popup(640,380, url);
+					}
+				},
+
+				gplus: {
+					compartir: function(_url) {
+						if(!_url) _url = window.location.href;
+						var url = "https://plus.google.com/share?hl=es-419&url="+encodeURIComponent(_url);
+						mv.fn.popup(500,400, url);
 					}
 				}
 			}, //api
