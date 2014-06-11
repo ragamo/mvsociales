@@ -4,12 +4,23 @@
 	<meta charset="UTF-8">
 	<title>Test</title>
 	
-	<script>var FB_API_KEY = 1392932547633312;</script>
+	<script>var FB_API_KEY = 1497306177151986;</script>
 	<script src="../src/mvsociales.js"></script>
+	<script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
 </head>
 <body>
+
 	<div id="fb-root"></div>
 	<script src="//connect.facebook.net/es_LA/all.js"></script>
+
+	<button id="fbLogin" onclick="fbLogin();">Login</button>
+	<script>
+	function fbLogin() {
+		mv.facebook.login(function(status, user) {
+			console.log(status, user);
+		});
+	}
+	</script>
 	
 </body>
 </html>
